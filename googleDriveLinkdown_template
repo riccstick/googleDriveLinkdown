@@ -1,0 +1,44 @@
+#!/bin/bash
+#
+# ARG_OPTIONAL_SINGLE([link], l,[googleDrive link])
+# ARG_OPTIONAL_SINGLE([outName], o,[filename after downloading], [googleDriveFile])
+# ARG_HELP([The general script's help msg])
+#
+# ARGBASH_GO
+#
+# [ <-- needed because of Argbash 
+name="$_arg_outname"
+### Functions
+
+start () {
+version="googleDriveLinkdown_v1.0"
+if [ -z "$_arg_link" ]; then
+  echo ""
+  echo "$version"
+  echo ""
+  echo "No link given... -> `basename $0` -h for help"
+  echo ""
+  echo "This program downloads a single file only from a given link from google drive to the current location."
+  echo ""
+  echo "Optional the filename after download can be given."
+  echo ""
+  exit 0
+fi
+}
+
+getID () {
+    ID=$(echo $_arg_link | cut -f 6 -d "/")
+}
+
+
+download () {
+    wget --no-check-certificate "https://docs.google.com/uc?export=download&id=$ID" -O $name
+}
+
+#script
+
+start
+getID
+download
+
+# ] <-- needed because of Argbash
